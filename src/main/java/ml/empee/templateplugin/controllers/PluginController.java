@@ -1,19 +1,36 @@
 package ml.empee.templateplugin.controllers;
 
-import ml.empee.commandsManager.CommandManager;
-import ml.empee.commandsManager.command.CommandExecutor;
-import ml.empee.commandsManager.command.annotations.CommandNode;
+import cloud.commandframework.annotations.Argument;
+import cloud.commandframework.annotations.CommandMethod;
+import lombok.RequiredArgsConstructor;
 import ml.empee.ioc.Bean;
-import ml.empee.templateplugin.Permissions;
+import ml.empee.templateplugin.config.CommandsConfig;
+import ml.empee.templateplugin.utils.Logger;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
-/** Controller used for managing the plugin. **/
+@RequiredArgsConstructor
+public class PluginController implements Bean {
 
-@CommandNode(label = "", permission = Permissions.ADMIN, exitNode = false)
-public class PluginController extends CommandExecutor implements Bean {
+  private final CommandsConfig commandsConfig;
 
-  /** IoC Constructor **/
-  public PluginController(CommandManager commandManager) {
-    commandManager.registerCommand(this);
+  @Override
+  public void onStart() {
+    commandsConfig.register(this);
+  }
+
+  @CommandMethod("echo <text> [target]")
+  public void sendEcho(
+    CommandSender sender,
+    @Argument String text,
+    @Argument @Nullable Player target
+  ) {
+    if (target != null) {
+      sender = target;
+    }
+
+    Logger.log(sender, text);
   }
 
 }

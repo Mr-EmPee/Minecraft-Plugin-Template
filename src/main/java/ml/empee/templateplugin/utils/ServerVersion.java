@@ -1,4 +1,4 @@
-package ml.empee.templateplugin.utils.reflection;
+package ml.empee.templateplugin.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
