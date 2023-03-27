@@ -33,7 +33,7 @@ dependencies {
   compileOnly("org.xerial:sqlite-jdbc:3.34.0")
 
   // Core depends
-  implementation("com.github.Mr-EmPee:SimpleIoC:1.6.0")
+  implementation("com.github.Mr-EmPee:SimpleIoC:1.7.1")
 
   implementation("me.lucko:commodore:2.2") {
     exclude("com.mojang", "brigadier")
