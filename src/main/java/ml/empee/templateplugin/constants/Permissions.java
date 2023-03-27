@@ -1,4 +1,4 @@
-package ml.empee.templateplugin;
+package ml.empee.templateplugin.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
