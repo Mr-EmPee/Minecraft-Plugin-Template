@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class Logger {
 
   @Getter @Setter
-  private static String prefix = TemplatePlugin.PREFIX;
+  private static String prefix;
   @Getter @Setter
   private static boolean isDebugEnabled;
   @Setter
