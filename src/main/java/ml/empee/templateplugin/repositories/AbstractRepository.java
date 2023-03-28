@@ -1,6 +1,9 @@
 package ml.empee.templateplugin.repositories;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,9 +26,11 @@ public abstract class AbstractRepository<T, ID> {
   protected final Executor executor;
   protected final Dao<T, ID> dao;
 
-  protected AbstractRepository(Executor executor, Dao<T, ID> dao) {
+  protected AbstractRepository(Executor executor, ConnectionSource connection, Class<T> target) throws SQLException {
     this.executor = executor;
-    this.dao = dao;
+
+    TableUtils.createTableIfNotExists(connection, target);
+    this.dao = DaoManager.createDao(connection, target);
   }
 
   protected CompletableFuture<Void> save(@NotNull T data) {

@@ -30,13 +30,6 @@ public class DatabaseConfig {
     dbFile.getParentFile().mkdirs();
     LoggerFactory.setLogBackendFactory(LogBackendType.NULL);
     connectionSource = new JdbcConnectionSource(dbURL);
-
-    createTables();
-  }
-
-  @SneakyThrows
-  private void createTables() {
-    //TableUtils.createTableIfNotExists(connectionSource, VaultData.class);
   }
 
   @SneakyThrows
