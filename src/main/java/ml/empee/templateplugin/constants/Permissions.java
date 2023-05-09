@@ -3,11 +3,14 @@ package ml.empee.templateplugin.constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-/** Store the plugin permissions **/
+/**
+ * Store the plugin permissions
+ **/
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Permissions {
 
-  public static final String ADMIN = "ADMIN";
+  private static final String PREFIX = "demoplugin.";
+  public static final String ADMIN = PREFIX + "admin";
 
 }

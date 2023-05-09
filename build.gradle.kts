@@ -1,4 +1,5 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import org.gradle.internal.impldep.bsh.commands.dir
 
 plugins {
   id("org.gradle.java-library")
@@ -20,6 +21,7 @@ bukkit {
   load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
   main = "${basePackage}.TemplatePlugin"
   apiVersion = "1.13"
+  depend = listOf()
   authors = listOf("Mr. EmPee")
 }
 
@@ -44,7 +46,6 @@ dependencies {
 
   // Utilities
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
-  //implementation("com.github.Mr-EmPee:JsonPersistence:2.1.0")
   //implementation("com.github.Mr-EmPee:SimpleLectorem:1.0.0")
   //implementation("com.github.Mr-EmPee:SimpleHeraut:1.0.1")
   //implementation("com.github.Mr-EmPee:ItemBuilder:1.0.0")
@@ -54,6 +55,11 @@ dependencies {
 }
 
 tasks {
+  checkstyle {
+    toolVersion = "10.10.0"
+    configFile = file("$projectDir/checkstyle.xml")
+  }
+
   shadowJar {
     isEnableRelocation = false
     relocationPrefix = "$basePackage.relocations"

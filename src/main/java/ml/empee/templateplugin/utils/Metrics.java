@@ -15,6 +15,13 @@
 
 package ml.empee.templateplugin.utils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -41,12 +48,6 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
-import javax.net.ssl.HttpsURLConnection;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings({"checkstyle:MissingJavadocType", "checkstyle:MissingJavadocMethod",
     "checkstyle:LocalVariableName", "checkstyle:LineLength"})
@@ -356,7 +357,7 @@ public final class Metrics {
       }
       StringBuilder builder = new StringBuilder();
       try (BufferedReader bufferedReader =
-          new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+               new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
         String line;
         while ((line = bufferedReader.readLine()) != null) {
           builder.append(line);
