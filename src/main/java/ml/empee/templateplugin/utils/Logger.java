@@ -27,7 +27,7 @@ public class Logger {
   private static String prefix;
   @Getter
   @Setter
-  private static boolean isDebugEnabled;
+  private static boolean debug;
   @Setter
   private static java.util.logging.Logger consoleLogger = JavaPlugin.getProvidingPlugin(Logger.class).getLogger();
 
@@ -72,7 +72,7 @@ public class Logger {
    * Log to the console a debug message.
    **/
   public static void debug(String message, Object... args) {
-    if (isDebugEnabled) {
+    if (debug) {
       consoleLogger.info(String.format(Locale.ROOT, message, args));
     }
   }
@@ -81,7 +81,7 @@ public class Logger {
    * Log a debug message to a player.
    **/
   public static void debug(CommandSender player, String message, Object... args) {
-    if (isDebugEnabled) {
+    if (debug) {
       log(player, message, ChatColor.DARK_GRAY, args);
     }
   }
