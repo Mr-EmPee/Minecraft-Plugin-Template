@@ -5,9 +5,9 @@ import cloud.commandframework.annotations.CommandPermission;
 import lombok.RequiredArgsConstructor;
 import ml.empee.ioc.Bean;
 import ml.empee.templateplugin.config.CommandsConfig;
+import ml.empee.templateplugin.config.LangConfig;
 import ml.empee.templateplugin.constants.Permissions;
 import ml.empee.templateplugin.utils.Logger;
-import ml.empee.templateplugin.utils.Translator;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -18,16 +18,17 @@ import org.bukkit.command.CommandSender;
 public class PluginController implements Bean {
 
   private final CommandsConfig commandsConfig;
+  private final LangConfig langConfig;
 
   @Override
   public void onStart() {
     commandsConfig.register(this);
   }
 
-  @CommandMethod("mb reload")
+  @CommandMethod("dm reload")
   @CommandPermission(Permissions.ADMIN)
   public void reload(CommandSender sender) {
-    Translator.reload();
+    langConfig.reload();
 
     Logger.log(sender, "&7The plugin has been reloaded");
   }
