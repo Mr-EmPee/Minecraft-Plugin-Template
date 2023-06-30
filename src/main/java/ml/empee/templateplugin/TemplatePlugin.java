@@ -2,9 +2,8 @@ package ml.empee.templateplugin;
 
 import lombok.Getter;
 import ml.empee.ioc.SimpleIoC;
+import ml.empee.templateplugin.config.LangConfig;
 import ml.empee.templateplugin.utils.Logger;
-import ml.empee.templateplugin.utils.PaperUtils;
-import ml.empee.templateplugin.utils.Translator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -23,17 +22,11 @@ public final class TemplatePlugin extends JavaPlugin {
    * Called when enabling the plugin
    */
   public void onEnable() {
-    Translator.init(this);
-    Logger.setPrefix(Translator.translate("prefix"));
-
-    if (!PaperUtils.IS_RUNNING_PAPER) {
-      //printPaperWarning();
-    }
-
     //Metrics.of(this, METRICS_PLUGIN_ID);
     //Notifier.listenForUpdates(this, SPIGOT_PLUGIN_ID);
 
     iocContainer.initialize("relocations");
+    Logger.setPrefix(iocContainer.getBean(LangConfig.class).translate("prefix"));
   }
 
   public void onDisable() {
