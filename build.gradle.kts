@@ -1,5 +1,4 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import org.gradle.internal.impldep.bsh.commands.dir
 
 plugins {
   id("org.gradle.java-library")
@@ -14,7 +13,12 @@ plugins {
 }
 
 group = "ml.empee"
-version = "1.0.0-SNAPSHOT"
+if (project.hasProperty("tag")) {
+  version = project.property("tag")!!
+} else {
+  version = "develop"
+}
+
 var basePackage = "ml.empee.templateplugin"
 
 bukkit {
@@ -32,6 +36,8 @@ repositories {
 
 dependencies {
   paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+  //compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+  compileOnly("org.jetbrains:annotations:24.0.1")
   compileOnly("org.xerial:sqlite-jdbc:3.34.0")
 
   // Core depends
@@ -48,9 +54,9 @@ dependencies {
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
   //implementation("com.github.Mr-EmPee:SimpleLectorem:1.0.0")
   //implementation("com.github.Mr-EmPee:SimpleHeraut:1.0.1")
-  //implementation("com.github.Mr-EmPee:ItemBuilder:1.0.0")
-
-  //implementation("io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.7")
+  //implementation("com.github.Mr-EmPee:ItemBuilder:1.1.1")
+  //implementation("com.github.Mr-EmPee:SimpleMenu:0.0.4")
+  //implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
   //implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 }
 
@@ -61,7 +67,7 @@ tasks {
   }
 
   shadowJar {
-    isEnableRelocation = false
+    isEnableRelocation = project.version != "develop"
     relocationPrefix = "$basePackage.relocations"
   }
 
