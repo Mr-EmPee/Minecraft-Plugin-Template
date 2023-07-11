@@ -67,6 +67,7 @@ tasks {
   }
 
   shadowJar {
+    archiveFileName.set("${project.name}.jar")
     isEnableRelocation = project.version != "develop"
     relocationPrefix = "$basePackage.relocations"
   }
