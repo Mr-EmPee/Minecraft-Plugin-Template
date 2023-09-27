@@ -1,14 +1,15 @@
 # User-specific stuff
-.idea/
-!.idea/checkstyle-idea.xml
-!.idea/externalDependencies.xml
-
 *.iml
 *.ipr
 *.iws
 
 # IntelliJ
+.idea/
 out/
+
+# VsCode
+.vscode/
+bin/
 
 # Eclipse
 .classpath
