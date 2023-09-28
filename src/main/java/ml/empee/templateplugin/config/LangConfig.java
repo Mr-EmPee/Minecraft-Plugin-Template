@@ -1,7 +1,9 @@
 package ml.empee.templateplugin.config;
 
 import lombok.Getter;
-import ml.empee.ioc.Bean;
+import mr.empee.lightwire.annotations.Instance;
+import mr.empee.lightwire.annotations.Singleton;
+
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,21 +16,17 @@ import java.util.regex.Pattern;
  * Handle messages
  */
 
-public class LangConfig extends AbstractConfig implements Bean {
+@Singleton
+public class LangConfig extends AbstractConfig {
 
   private static final String HEX_PREFIX = "&#";
   private static final Pattern HEX_COLOR = Pattern.compile(HEX_PREFIX + "[a-zA-z0-9]{6}");
 
-  @Getter
+  @Instance @Getter
   private static LangConfig instance;
 
   public LangConfig(JavaPlugin plugin) {
     super(plugin, "messages.yml", 1);
-  }
-
-  @Override
-  public void onStart() {
-    instance = this;
   }
 
   @Override
@@ -44,9 +42,9 @@ public class LangConfig extends AbstractConfig implements Bean {
       throw new IllegalArgumentException("Missing translation key " + key);
     }
 
-    return ChatColor.translateAlternateColorCodes(
+    return String.format(ChatColor.translateAlternateColorCodes(
         '&', translateHexCodes(translation)
-    ).formatted(placeholders);
+    ), placeholders);
   }
 
   public List<String> translateBlock(String key, Object... placeholders) {

@@ -8,28 +8,21 @@ import ml.empee.templateplugin.config.CommandsConfig;
 import ml.empee.templateplugin.config.LangConfig;
 import ml.empee.templateplugin.constants.Permissions;
 import ml.empee.templateplugin.utils.Logger;
+import mr.empee.lightwire.annotations.Singleton;
+
 import org.bukkit.command.CommandSender;
 
 /**
  * Plugin related commands
  */
 
+@Singleton
 @RequiredArgsConstructor
-public class PluginController implements Bean {
+public class PluginController implements Controller {
 
-  private final CommandsConfig commandsConfig;
-  private final LangConfig langConfig;
-
-  @Override
-  public void onStart() {
-    commandsConfig.register(this);
-  }
-
-  @CommandMethod("dm reload")
+  @CommandMethod("template reload")
   @CommandPermission(Permissions.ADMIN)
   public void reload(CommandSender sender) {
-    langConfig.reload();
-
     Logger.log(sender, "&7The plugin has been reloaded");
   }
 

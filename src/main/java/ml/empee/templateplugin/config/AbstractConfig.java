@@ -16,7 +16,7 @@ public abstract class AbstractConfig {
   protected final int version;
   protected YamlConfiguration config;
 
-  public AbstractConfig(JavaPlugin plugin, String resource, int version) {
+  protected AbstractConfig(JavaPlugin plugin, String resource, int version) {
     file = new File(plugin.getDataFolder(), resource);
     if (!file.exists()) {
       plugin.saveResource(resource, true);

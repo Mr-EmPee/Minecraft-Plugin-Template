@@ -1,9 +1,19 @@
 package ml.empee.templateplugin;
 
 import lombok.Getter;
-import ml.empee.ioc.SimpleIoC;
+import lombok.val;
+import ml.empee.simplemenu.SimpleMenu;
+import ml.empee.templateplugin.config.CommandsConfig;
 import ml.empee.templateplugin.config.LangConfig;
+import ml.empee.templateplugin.config.client.DbClient;
+import ml.empee.templateplugin.controllers.Controller;
 import ml.empee.templateplugin.utils.Logger;
+import mr.empee.lightwire.Lightwire;
+import net.milkbowl.vault.economy.Economy;
+
+import java.util.Optional;
+
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -12,24 +22,63 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class TemplatePlugin extends JavaPlugin {
 
-  //private static final String SPIGOT_PLUGIN_ID = "";
-  //private static final Integer METRICS_PLUGIN_ID = 0;
+  // private static final String SPIGOT_PLUGIN_ID = "";
+  // private static final Integer METRICS_PLUGIN_ID = 0;
 
-  @Getter
-  private final SimpleIoC iocContainer = new SimpleIoC(this);
+  private final Lightwire iocContainer = new Lightwire();
+  private final SimpleMenu simpleMenu = new SimpleMenu();
 
   /**
    * Called when enabling the plugin
    */
   public void onEnable() {
-    //Metrics.of(this, METRICS_PLUGIN_ID);
-    //Notifier.listenForUpdates(this, SPIGOT_PLUGIN_ID);
+    // Metrics.of(this, METRICS_PLUGIN_ID);
+    // Notifier.listenForUpdates(this, SPIGOT_PLUGIN_ID);
+    
+    simpleMenu.init(this);
+    loadEconomyProvider();
 
-    iocContainer.initialize("relocations");
-    Logger.setPrefix(iocContainer.getBean(LangConfig.class).translate("prefix"));
+    iocContainer.addBean(this);
+    iocContainer.loadBeans(getClass().getPackage());
+
+    loadPrefix();
+    registerListeners();
+    registerCommands();
+  }
+
+  private void loadPrefix() {
+    val langConfig = iocContainer.getBean(LangConfig.class);
+    Logger.setPrefix(langConfig.translate("prefix"));
+  }
+
+  private void registerCommands() {
+    var commandManager = iocContainer.getBean(CommandsConfig.class);
+    iocContainer.getAllBeans(Controller.class).forEach(
+        c -> commandManager.register(c)
+    );
+  }
+
+  private void registerListeners() {
+    iocContainer.getAllBeans(Listener.class).forEach(
+        l -> getServer().getPluginManager().registerEvents(l, this)
+    );
+  }
+
+  private void loadEconomyProvider() {
+    var provider = getServer().getServicesManager().getRegistration(Economy.class);
+    if (provider == null) {
+      throw new IllegalStateException("Economy provider not found! Load an economy plugin!");
+    }
+
+    iocContainer.addBean(provider.getProvider());
   }
 
   public void onDisable() {
-    iocContainer.removeAllBeans(true);
+    var dbClient = iocContainer.getBean(DbClient.class);
+    if (dbClient != null) {
+      dbClient.closeConnections();
+    }
+
+    simpleMenu.unregister(this);
   }
 }
