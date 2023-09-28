@@ -1,16 +1,13 @@
 package ml.empee.templateplugin.controllers;
 
+import org.bukkit.command.CommandSender;
+
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import lombok.RequiredArgsConstructor;
-import ml.empee.ioc.Bean;
-import ml.empee.templateplugin.config.CommandsConfig;
-import ml.empee.templateplugin.config.LangConfig;
 import ml.empee.templateplugin.constants.Permissions;
 import ml.empee.templateplugin.utils.Logger;
 import mr.empee.lightwire.annotations.Singleton;
-
-import org.bukkit.command.CommandSender;
 
 /**
  * Plugin related commands

@@ -1,6 +1,8 @@
 package ml.empee.templateplugin;
 
-import lombok.Getter;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import lombok.val;
 import ml.empee.simplemenu.SimpleMenu;
 import ml.empee.templateplugin.config.CommandsConfig;
@@ -10,11 +12,6 @@ import ml.empee.templateplugin.controllers.Controller;
 import ml.empee.templateplugin.utils.Logger;
 import mr.empee.lightwire.Lightwire;
 import net.milkbowl.vault.economy.Economy;
-
-import java.util.Optional;
-
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Boot class of this plugin.

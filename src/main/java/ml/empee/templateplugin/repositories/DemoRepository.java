@@ -9,7 +9,7 @@ import ml.empee.templateplugin.config.client.DbClient;
 import mr.empee.lightwire.annotations.Singleton;
 
 /**
- * Save the cell world state
+ * Repository for the demo table
  */
 
 @Singleton
