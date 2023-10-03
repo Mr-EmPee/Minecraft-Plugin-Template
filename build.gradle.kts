@@ -29,6 +29,10 @@ bukkit {
 }
 
 repositories {
+  maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+  maven("https://oss.sonatype.org/content/repositories/snapshots")
+  maven("https://oss.sonatype.org/content/repositories/central")
+  
   maven("https://repo.codemc.io/repository/nms/")
   maven("https://jitpack.io")
 
@@ -54,7 +58,7 @@ dependencies {
 
   // Utilities
   implementation("com.github.Mr-EmPee:SimpleMenu:0.0.6")
-  implementation("com.github.Mr-EmPee:ItemBuilder:1.1.2")
+  implementation("com.github.Mr-EmPee:ItemBuilder:1.1.3")
 
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
   //implementation("com.github.Mr-EmPee:SimpleHeraut:1.0.1")
