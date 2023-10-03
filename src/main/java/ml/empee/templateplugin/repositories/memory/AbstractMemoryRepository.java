@@ -1,4 +1,4 @@
-package ml.empee.templateplugin.repositories.cache;
+package ml.empee.templateplugin.repositories.memory;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,15 +9,15 @@ import ml.empee.templateplugin.model.entities.Entity;
 import ml.empee.templateplugin.repositories.AbstractRepository;
 
 /**
- * FULL In-Memory cache with async persistence
+ * FULL In-Memory repository with async persistence
  */
 
-public abstract class AbstractMemoryCache<T extends Entity> {
+public abstract class AbstractMemoryRepository<T extends Entity> {
 
   private final TreeMap<Long, T> cache = new TreeMap<>();
   private final AbstractRepository<T> repository;
 
-  protected AbstractMemoryCache(AbstractRepository<T> repository) {
+  protected AbstractMemoryRepository(AbstractRepository<T> repository) {
     this.repository = repository;
 
     loadFromRepository();
