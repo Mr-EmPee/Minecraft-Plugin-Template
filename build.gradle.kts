@@ -1,7 +1,6 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
-  id("org.gradle.eclipse")
   id("org.gradle.java-library")
   id("org.gradle.checkstyle")
 
@@ -13,7 +12,7 @@ plugins {
 }
 
 if (project.hasProperty("tag")) {
-  version = project.property("tag")
+  version = project.property("tag")!!
 } else {
   version = "develop"
 }
@@ -40,11 +39,12 @@ repositories {
 }
 
 dependencies {
-  compileOnly("com.destroystokyo.paper:paper:1.13.2-R0.1-SNAPSHOT:sources")
+  compileOnly("com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT")
 
   compileOnly("org.jetbrains:annotations:24.0.1")
   compileOnly("org.xerial:sqlite-jdbc:3.34.0")
-  compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+  compileOnly("com.github.MilkBowl:VaultAPI:1.7")  { isTransitive = false }
 
   // Core depends
   implementation("com.github.Mr-EmPee:LightWire:1.0.0")
@@ -62,7 +62,7 @@ dependencies {
 
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
   //implementation("com.github.Mr-EmPee:SimpleHeraut:1.0.1")
-  //implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+  //implementation("com.github.cryptomorin:XSeries:9.4.0")
 }
 
 tasks {
@@ -94,6 +94,11 @@ tasks {
 
   runServer {
     version.set("1.13.2")
+    args("-o false")
+
+    jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005")
+    systemProperty("paper.playerconnection.keepalive", 10000)
+    systemProperty("LetMeReload", true)
   }
 }
 

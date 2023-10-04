@@ -27,7 +27,10 @@ public class DbClient {
 
   private Connection jdbcConnection;
 
+  @SneakyThrows
   public DbClient(JavaPlugin plugin) {
+    Class.forName("org.sqlite.JDBC");
+
     File dbFile = new File(plugin.getDataFolder(), "db.sqlite");
     this.dbUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath();
 
