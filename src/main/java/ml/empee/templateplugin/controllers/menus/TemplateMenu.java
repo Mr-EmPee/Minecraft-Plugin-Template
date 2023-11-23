@@ -1,4 +1,4 @@
-package ml.empee.templateplugin.controllers.views;
+package ml.empee.templateplugin.controllers.menus;
 
 import lombok.Getter;
 import ml.empee.templateplugin.registries.ThemeRegistry;
@@ -10,7 +10,7 @@ import mr.empee.lightwire.annotations.Instance;
 import mr.empee.lightwire.annotations.Singleton;
 
 /**
- * Menu to claim a cell
+ * Menu
  */
 
 @Singleton
