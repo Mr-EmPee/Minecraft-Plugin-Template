@@ -1,25 +1,21 @@
 package ml.empee.templateplugin.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import com.cryptomorin.xseries.XItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,7 +48,7 @@ public class ObjectConverter {
   /**
    * Parse a string to a collection
    */
-  public <T> ArrayList<T> parseCollection(String raw, Function<String, T> mapper) {
+  public <T> List<T> parseList(String raw, Function<String, T> mapper) {
     return Arrays.stream(gson.fromJson(raw, String[].class))
         .map(mapper)
         .collect(Collectors.toCollection(ArrayList::new));
@@ -153,60 +149,35 @@ public class ObjectConverter {
   /**
    * A method to serialize an item to a Base64 string.
    */
-  public String parseItem(ItemStack item) throws IOException {
-    return parseInventory(new ItemStack[] { item });
+  public String parseItem(ItemStack item) {
+    return parse(XItemStack.serialize(item));
   }
 
   /**
    * A method to get an item from an encoded Base64 string.
    */
-  public ItemStack parseItem(String item) throws IOException {
-    return parseInventory(item)[0];
+  public ItemStack parseItem(String item) {
+    return XItemStack.deserialize(
+        ObjectConverter.parse(item, new TypeToken<Map<String, Object>>() {})
+    );
   }
 
   /**
    * A method to serialize an array of items to a Base64 string.
    */
-  public String parseInventory(ItemStack[] items) throws IOException {
-    try (
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ObjectOutput dataOutput = new BukkitObjectOutputStream(outputStream)) {
-
-      dataOutput.writeInt(items.length);
-
-      for (ItemStack item : items) {
-        dataOutput.writeObject(item);
-      }
-
-      // Serialize that array
-      dataOutput.flush();
-      outputStream.flush();
-      return Base64Coder.encodeLines(outputStream.toByteArray());
-    }
+  public String parseInventory(ItemStack[] items) {
+    return parse(
+        Stream.of(items)
+        .map(ObjectConverter::parseItem)
+        .collect(Collectors.toList())
+    );
   }
 
   /**
    * A method to get an array of items from an encoded Base64 string.
    */
-  public ItemStack[] parseInventory(String rawItems) throws IOException {
-    if (rawItems.isEmpty()) {
-      return new ItemStack[0];
-    }
-
-    try (
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(rawItems));
-        BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
-      ItemStack[] items = new ItemStack[dataInput.readInt()];
-
-      // Read the serialized inventory
-      for (int i = 0; i < items.length; i++) {
-        items[i] = (ItemStack) dataInput.readObject();
-      }
-
-      return items;
-    } catch (ClassNotFoundException e) {
-      throw new IOException("Unable to decode class type.", e);
-    }
+  public List<ItemStack> parseInventory(String rawItems) {
+    return parseList(rawItems, ObjectConverter::parseItem);
   }
 
 }
