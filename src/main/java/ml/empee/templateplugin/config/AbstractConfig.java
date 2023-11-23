@@ -18,7 +18,7 @@ public abstract class AbstractConfig {
 
   protected AbstractConfig(JavaPlugin plugin, String resource, int version) {
     file = new File(plugin.getDataFolder(), resource);
-    if (!file.exists()) {
+    if (!file.exists() || plugin.getDescription().getVersion().equals("develop")) {
       plugin.saveResource(resource, true);
     }
 
