@@ -3,7 +3,7 @@ package ml.empee.templateplugin.constants;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.RequiredArgsConstructor;
-import ml.empee.templateplugin.config.LangConfig;
+import ml.empee.templateplugin.config.MessageConfig;
 import mr.empee.lightwire.annotations.Instance;
 import mr.empee.lightwire.annotations.Singleton;
 
@@ -19,7 +19,7 @@ public class ItemRegistry {
   private static ItemRegistry instance;
 
   private final JavaPlugin plugin;
-  private final LangConfig langConfig;
+  private final MessageConfig langConfig;
 
   public void reload() {
   }

@@ -1,17 +1,15 @@
 package ml.empee.templateplugin;
 
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import lombok.val;
 import ml.empee.simplemenu.SimpleMenu;
 import ml.empee.templateplugin.config.CommandsConfig;
-import ml.empee.templateplugin.config.LangConfig;
+import ml.empee.templateplugin.config.MessageConfig;
 import ml.empee.templateplugin.config.client.DbClient;
 import ml.empee.templateplugin.controllers.Controller;
-import ml.empee.templateplugin.utils.Logger;
+import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.Lightwire;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Boot class of this plugin.
@@ -44,15 +42,13 @@ public final class TemplatePlugin extends JavaPlugin {
   }
 
   private void loadPrefix() {
-    val langConfig = iocContainer.getBean(LangConfig.class);
-    Logger.setPrefix(langConfig.translate("prefix"));
+    var msgConfig = iocContainer.getBean(MessageConfig.class);
+    Utils.setPrefix(msgConfig.get("prefix"));
   }
 
   private void registerCommands() {
     var commandManager = iocContainer.getBean(CommandsConfig.class);
-    iocContainer.getAllBeans(Controller.class).forEach(
-        c -> commandManager.register(c)
-    );
+    iocContainer.getAllBeans(Controller.class).forEach(c -> commandManager.register(c));
   }
 
   private void registerListeners() {

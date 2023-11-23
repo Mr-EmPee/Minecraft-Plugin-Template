@@ -6,7 +6,7 @@ import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import lombok.RequiredArgsConstructor;
 import ml.empee.templateplugin.constants.Permissions;
-import ml.empee.templateplugin.utils.Logger;
+import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.annotations.Singleton;
 
 /**
@@ -20,7 +20,7 @@ public class PluginController implements Controller {
   @CommandMethod("template reload")
   @CommandPermission(Permissions.ADMIN)
   public void reload(CommandSender sender) {
-    Logger.log(sender, "&7The plugin has been reloaded");
+    Utils.log(sender, "&7The plugin has been reloaded");
   }
 
 }

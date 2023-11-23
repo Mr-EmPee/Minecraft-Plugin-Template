@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import ml.empee.templateplugin.utils.Logger;
+import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.annotations.Singleton;
 
 /**
@@ -49,7 +49,7 @@ public class DbClient {
 
   @SneakyThrows
   public void closeConnections() {
-    Logger.info("Shutting down db connections (Forced stop in 60seconds)");
+    Utils.info("Shutting down db connections (Forced stop in 60seconds)");
 
     threadPool.shutdown();
     threadPool.awaitTermination(60, TimeUnit.SECONDS);
