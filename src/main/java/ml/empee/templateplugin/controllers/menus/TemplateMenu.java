@@ -1,7 +1,10 @@
 package ml.empee.templateplugin.controllers.menus;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
+import ml.empee.templateplugin.model.exceptions.MessageException;
 import ml.empee.templateplugin.registries.ThemeRegistry;
+import ml.empee.templateplugin.utils.Utils;
 import org.bukkit.entity.Player;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +48,18 @@ public class TemplateMenu {
     public String title() {
       return "";
     }
+
+    @SneakyThrows
+    public void handleException(Exception e) {
+      if (e instanceof MessageException) {
+        Utils.log(player, e.getMessage());
+        player.closeInventory();
+        return;
+      }
+
+      throw e;
+    }
+
   }
 
 }

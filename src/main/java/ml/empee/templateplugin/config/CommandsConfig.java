@@ -11,6 +11,7 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.SimpleCommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
 import io.leangen.geantyref.TypeToken;
+import ml.empee.templateplugin.model.exceptions.MessageException;
 import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.annotations.Singleton;
 import org.bukkit.command.CommandSender;
@@ -71,6 +72,10 @@ public class CommandsConfig {
     commandManager.registerExceptionHandler(ArgumentParseException.class, (sender, e) -> {
       Utils.log(sender, msgConfig.get("cmd.invalid-argument", Map.of("details", e.getCause().getMessage())));
     });
+
+    commandManager.registerExceptionHandler(MessageException.class, ((sender, e) -> {
+      Utils.log(sender, e.getMessage());
+    }));
 
     commandManager.registerExceptionHandler(Exception.class, (sender, e) -> {
       Utils.log(sender, msgConfig.get("cmd.unknown-error"));

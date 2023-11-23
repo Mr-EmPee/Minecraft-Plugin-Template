@@ -56,7 +56,7 @@ dependencies {
   implementation("cloud.commandframework:cloud-annotations:1.8.3")
 
   // Utilities
-  implementation("com.github.Mr-EmPee:SimpleMenu:0.3.3")
+  implementation("com.github.Mr-EmPee:SimpleMenu:0.3.4")
   implementation("com.github.Mr-EmPee:ItemBuilder:1.1.3")
 
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
