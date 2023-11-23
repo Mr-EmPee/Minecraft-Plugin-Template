@@ -1,25 +1,26 @@
 package ml.empee.templateplugin.repositories;
 
+import lombok.SneakyThrows;
+import ml.empee.templateplugin.config.client.DbClient;
+import ml.empee.templateplugin.model.entities.Entity;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-import lombok.SneakyThrows;
-import ml.empee.templateplugin.config.client.DbClient;
-import ml.empee.templateplugin.model.entities.Entity;
 
 /**
  * AbstractRepository
  */
 
-public abstract class AbstractRepository<T extends Entity> {
+public abstract class AbstractRepository<T extends Entity<K>, K> {
 
-  private final DbClient client;
-  private final String table;
+  protected final DbClient client;
+  protected final String table;
 
   protected AbstractRepository(DbClient client, String table) {
     this.client = client;
@@ -61,6 +62,23 @@ public abstract class AbstractRepository<T extends Entity> {
     }, client.getThreadPool());
   }
 
+  public CompletableFuture<Optional<T>> findById(K id) {
+    return CompletableFuture.supplyAsync(() -> {
+      var query = "SELECT * FROM " + table + " WHERE id = ?;";
+      try (var stm = client.getJdbcConnection().prepareStatement(query)) {
+        stm.setObject(1, id);
+        var rs = stm.executeQuery();
+        if (rs.next()) {
+          return Optional.of(parse(rs));
+        }
+
+        return Optional.empty();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }, client.getThreadPool());
+  }
+
   /**
    * Save an entity
    */
@@ -68,7 +86,7 @@ public abstract class AbstractRepository<T extends Entity> {
     return CompletableFuture.runAsync(() -> {
       var values = schema().stream().map(s -> "?").collect(Collectors.toList());
       var query = "INSERT OR REPLACE INTO " + table + " VALUES (" + String.join(", ", values) + ");";
-      
+
       try (var stm = client.getJdbcConnection().prepareStatement(query)) {
         prepareStatement(stm, entity);
         stm.executeUpdate();
@@ -78,11 +96,22 @@ public abstract class AbstractRepository<T extends Entity> {
     }, client.getThreadPool());
   }
 
-  public CompletableFuture<Void> delete(Long id) {
+  public CompletableFuture<Void> delete(K id) {
     return CompletableFuture.runAsync(() -> {
       var query = "DELETE FROM " + table + " WHERE id = ?;";
       try (var stm = client.getJdbcConnection().prepareStatement(query)) {
-        stm.setLong(1, id);
+        stm.setObject(1, id);
+        stm.executeUpdate();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }, client.getThreadPool());
+  }
+
+  public CompletableFuture<Void> deleteAll() {
+    return CompletableFuture.runAsync(() -> {
+      var query = "DELETE FROM " + table + ";";
+      try (var stm = client.getJdbcConnection().prepareStatement(query)) {
         stm.executeUpdate();
       } catch (SQLException e) {
         throw new RuntimeException(e);
