@@ -30,7 +30,7 @@ public class ThemeRegistry {
   }
 
   public void reload() {
-    msgConfig.reload();
+
   }
 
   public enum Type {

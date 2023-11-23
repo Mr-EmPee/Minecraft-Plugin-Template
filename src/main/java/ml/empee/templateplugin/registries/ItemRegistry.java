@@ -24,7 +24,7 @@ public class ItemRegistry {
   private final MessageConfig msgConfig;
 
   public void reload() {
-    msgConfig.reload();
+
   }
 
 }
