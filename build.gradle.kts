@@ -2,7 +2,6 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
   id("org.gradle.java-library")
-  id("org.gradle.checkstyle")
 
   id("io.freefair.lombok") version "6.6.3"
   id("com.github.johnrengelman.shadow") version "8.1.0"
@@ -47,7 +46,7 @@ dependencies {
   compileOnly("com.github.MilkBowl:VaultAPI:1.7")  { isTransitive = false }
 
   // Core depends
-  implementation("com.github.Mr-EmPee:LightWire:1.0.0")
+  implementation("com.github.Mr-EmPee:LightWire:1.1.0")
 
   implementation("me.lucko:commodore:2.2") {
     exclude("com.mojang", "brigadier")
@@ -57,7 +56,7 @@ dependencies {
   implementation("cloud.commandframework:cloud-annotations:1.8.3")
 
   // Utilities
-  implementation("com.github.Mr-EmPee:SimpleMenu:0.0.6")
+  implementation("com.github.Mr-EmPee:SimpleMenu:0.3.3")
   implementation("com.github.Mr-EmPee:ItemBuilder:1.1.3")
 
   //implementation("org.cloudburstmc:nbt:3.0.1.Final")
@@ -66,11 +65,6 @@ dependencies {
 }
 
 tasks {
-  checkstyle {
-    toolVersion = "10.10.0"
-    configFile = file("$projectDir/checkstyle.xml")
-  }
-
   shadowJar {
     archiveFileName.set("${project.name}.jar")
     isEnableRelocation = project.version != "develop"
