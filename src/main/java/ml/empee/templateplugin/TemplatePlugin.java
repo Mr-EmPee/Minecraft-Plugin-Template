@@ -4,7 +4,7 @@ import ml.empee.simplemenu.SimpleMenu;
 import ml.empee.templateplugin.config.CommandsConfig;
 import ml.empee.templateplugin.config.MessageConfig;
 import ml.empee.templateplugin.config.client.DbClient;
-import ml.empee.templateplugin.controllers.Controller;
+import ml.empee.templateplugin.controllers.commands.Command;
 import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.Lightwire;
 import net.milkbowl.vault.economy.Economy;
@@ -48,7 +48,7 @@ public final class TemplatePlugin extends JavaPlugin {
 
   private void registerCommands() {
     var commandManager = iocContainer.getBean(CommandsConfig.class);
-    iocContainer.getAllBeans(Controller.class).forEach(c -> commandManager.register(c));
+    iocContainer.getAllBeans(Command.class).forEach(c -> commandManager.register(c));
   }
 
   private void registerListeners() {

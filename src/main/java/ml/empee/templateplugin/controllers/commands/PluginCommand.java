@@ -1,13 +1,12 @@
-package ml.empee.templateplugin.controllers;
-
-import org.bukkit.command.CommandSender;
+package ml.empee.templateplugin.controllers.commands;
 
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import lombok.RequiredArgsConstructor;
-import ml.empee.templateplugin.constants.Permissions;
+import ml.empee.templateplugin.registries.PermissionRegistry;
 import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.annotations.Singleton;
+import org.bukkit.command.CommandSender;
 
 /**
  * Plugin related commands
@@ -15,10 +14,10 @@ import mr.empee.lightwire.annotations.Singleton;
 
 @Singleton
 @RequiredArgsConstructor
-public class PluginController implements Controller {
+public class PluginCommand implements Command {
 
-  @CommandMethod("template reload")
-  @CommandPermission(Permissions.ADMIN)
+  @CommandMethod("demo reload")
+  @CommandPermission(PermissionRegistry.ADMIN)
   public void reload(CommandSender sender) {
     Utils.log(sender, "&7The plugin has been reloaded");
   }
