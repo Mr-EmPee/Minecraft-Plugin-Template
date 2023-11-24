@@ -1,16 +1,16 @@
 package ml.empee.templateplugin.controllers.menus;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
-import ml.empee.templateplugin.model.exceptions.MessageException;
-import ml.empee.templateplugin.registries.ThemeRegistry;
-import ml.empee.templateplugin.utils.Utils;
-import org.bukkit.entity.Player;
-
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import ml.empee.simplemenu.model.menus.ChestMenu;
+import ml.empee.templateplugin.model.exceptions.MessageException;
+import ml.empee.templateplugin.registries.themes.Theme;
+import ml.empee.templateplugin.registries.themes.ThemeRegistry;
+import ml.empee.templateplugin.utils.Utils;
 import mr.empee.lightwire.annotations.Instance;
 import mr.empee.lightwire.annotations.Singleton;
+import org.bukkit.entity.Player;
 
 /**
  * Menu
@@ -35,6 +35,8 @@ public class TemplateMenu {
   }
 
   private class Menu extends ChestMenu {
+    private final Theme theme = themeRegistry.getTheme(ThemeRegistry.Type.DEFAULT);
+
     public Menu(Player player) {
       super(player, 3);
     }
