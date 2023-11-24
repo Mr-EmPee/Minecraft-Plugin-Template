@@ -46,7 +46,7 @@ dependencies {
   compileOnly("com.github.MilkBowl:VaultAPI:1.7")  { isTransitive = false }
 
   // Core depends
-  implementation("com.github.Mr-EmPee:LightWire:1.1.0")
+  implementation("com.github.Mr-EmPee:LightWire:1.2.0")
 
   implementation("me.lucko:commodore:2.2") {
     exclude("com.mojang", "brigadier")
